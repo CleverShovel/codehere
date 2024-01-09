@@ -14,8 +14,8 @@ class NewMapObjectForm extends React.Component {
 
   componentDidMount() {
     if (this.props.map_object) {
-      const { pk, username, code } = this.props.map_object;
-      this.setState({ pk, username, code });
+      const { pk, username, code, lon, lat } = this.props.map_object;
+      this.setState({ pk, username, code, lon, lat });
     }
   }
 
@@ -62,6 +62,34 @@ class NewMapObjectForm extends React.Component {
             name="code"
             onChange={this.onChange}
             value={this.defaultIfEmpty(this.state.code)}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="lon">Longitude:</Label>
+          <Input
+            type="text"
+            name="code"
+            onChange={this.onChange}
+            onKeyDown={(event) => {
+              if (!/[0-9]/.test(event.key)) {
+                event.preventDefault();
+              }
+            }}
+            value={this.defaultIfEmpty(this.state.lon)}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="lat">Latitude:</Label>
+          <Input
+            type="text"
+            name="code"
+            onChange={this.onChange}
+            onKeyDown={(event) => {
+              if (!/[0-9]/.test(event.key)) {
+                event.preventDefault();
+              }
+            }}
+            value={this.defaultIfEmpty(this.state.lat)}
           />
         </FormGroup>
         <Button>Send</Button>

@@ -5,4 +5,4 @@ class MapObjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MapObject 
-        fields = ('pk', 'username', 'code', 'created_at')
+        fields = ('pk', 'username', 'code', 'created_at', 'lon', 'lat')

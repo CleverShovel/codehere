@@ -14,6 +14,8 @@ class MapObjectList extends Component {
             <th>Username</th>
             <th>Code</th>
             <th>Created at</th>
+            <th>Longitude</th>
+            <th>Latitude</th>
             <th></th>
           </tr>
         </thead>
@@ -30,6 +32,8 @@ class MapObjectList extends Component {
                 <td>{map_object.username}</td>
                 <td>{map_object.code}</td>
                 <td>{map_object.created_at}</td>
+                <td>{map_object.lon}</td>
+                <td>{map_object.lat}</td>
                 <td align="center">
                   <NewMapObjectModal
                     create={false}
