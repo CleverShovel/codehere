@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Col, Container, Row } from "reactstrap";
 
-import MapObjectList from "./MapObjectList";
-import NewMapObjectModal from "./NewMapObjectModal";
+import NewMapObjectOnPage from "./NewMapObjectOnPage";
 import CodeMap from "./CodeMap";
 
 import axios from "axios";
@@ -35,10 +34,9 @@ class Home extends Component {
               map_objects={this.state.map_objects}
             />
           </Col>
-        </Row>
-        <Row>
           <Col>
-            <NewMapObjectModal create={true} resetState={this.resetState} />
+            <NewMapObjectOnPage
+              resetState={this.resetState} />
           </Col>
         </Row>
       </Container>

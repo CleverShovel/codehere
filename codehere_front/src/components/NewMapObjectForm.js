@@ -10,6 +10,8 @@ class NewMapObjectForm extends React.Component {
     pk: 0,
     username: "",
     code: "",
+    lon: "",
+    lat: ""
   };
 
   componentDidMount() {
@@ -20,7 +22,7 @@ class NewMapObjectForm extends React.Component {
   }
 
   onChange = e => {
-    this.setState({ [e.target.username]: e.target.value });
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   createMapObject = e => {
@@ -52,7 +54,7 @@ class NewMapObjectForm extends React.Component {
             type="text"
             name="username"
             onChange={this.onChange}
-            value={this.defaultIfEmpty(this.state.username)}
+            defaultValue={this.defaultIfEmpty(this.state.username)}
           />
         </FormGroup>
         <FormGroup>
@@ -61,35 +63,35 @@ class NewMapObjectForm extends React.Component {
             type="textarea"
             name="code"
             onChange={this.onChange}
-            value={this.defaultIfEmpty(this.state.code)}
+            defaultValue={this.defaultIfEmpty(this.state.code)}
           />
         </FormGroup>
         <FormGroup>
           <Label for="lon">Longitude:</Label>
           <Input
             type="text"
-            name="code"
+            name="lon"
             onChange={this.onChange}
-            onKeyDown={(event) => {
-              if (!/[0-9]/.test(event.key)) {
-                event.preventDefault();
-              }
-            }}
-            value={this.defaultIfEmpty(this.state.lon)}
+            // onKeyDown={(event) => {
+            //   if (!/[0-9]/.test(event.key)) {
+            //     event.preventDefault();
+            //   }
+            // }}
+            defaultValue={this.defaultIfEmpty(this.state.lon)}
           />
         </FormGroup>
         <FormGroup>
           <Label for="lat">Latitude:</Label>
           <Input
             type="text"
-            name="code"
+            name="lat"
             onChange={this.onChange}
-            onKeyDown={(event) => {
-              if (!/[0-9]/.test(event.key)) {
-                event.preventDefault();
-              }
-            }}
-            value={this.defaultIfEmpty(this.state.lat)}
+            // onKeyDown={(event) => {
+            //   if (!/[0-9]/.test(event.key)) {
+            //     event.preventDefault();
+            //   }
+            // }}
+            defaultValue={this.defaultIfEmpty(this.state.lat)}
           />
         </FormGroup>
         <Button>Send</Button>

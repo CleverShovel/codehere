@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Popup } from 'react-map-gl/maplibre';
 
 class CodePopup extends Component {
@@ -17,7 +17,7 @@ class CodePopup extends Component {
         const lat = this.props.lat;
         const username = this.props.username;
         const code = this.props.code;
-        return <div>
+        return <Fragment>
             {this.state.showPopup && (
                 <Popup longitude={lon} latitude={lat}
                     anchor="bottom"
@@ -26,7 +26,7 @@ class CodePopup extends Component {
                     <p>Code:</p>
                     <p>{code}</p>
                 </Popup>)}
-        </div>;
+        </Fragment>;
     }
 }
 
