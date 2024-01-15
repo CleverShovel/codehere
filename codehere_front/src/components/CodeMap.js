@@ -4,7 +4,7 @@ import { format } from 'react-string-format';
 
 import CodeMarker from './CodeMarker'
 
-export default function CodeMap({map_objects}) {
+export default function CodeMap({ map_objects }) {
     const [popupInfo, setPopupInfo] = useState(null);
     return (
         <Map
