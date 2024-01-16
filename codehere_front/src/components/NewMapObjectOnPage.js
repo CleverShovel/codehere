@@ -1,8 +1,23 @@
-import React, { Fragment } from "react";
-import { Col, Container, Row } from "reactstrap";
+import React, { Fragment, useState, useEffect } from "react";
+import { Col, Row } from "reactstrap";
 import NewMapObjectForm from "./NewMapObjectForm";
 
-export default function NewMapObjectOnPage({ resetState }) {
+export default function NewMapObjectOnPage({ resetState, lon, lat }) {
+    const [map_object, setMapObject] = useState(null)
+
+    useEffect(() => {
+        let new_map_object = null
+        if (lon !== null && lat !== null)
+            new_map_object = {
+                "pk": null,
+                "username": null,
+                "code": null,
+                "lon": lon,
+                "lat": lat,
+            }
+        setMapObject(new_map_object)
+    }, [lon, lat])
+
     return (
         <Fragment>
             <Col>
@@ -13,7 +28,8 @@ export default function NewMapObjectOnPage({ resetState }) {
                     <NewMapObjectForm
                         resetState={resetState}
                         toggle={() => { }}
-                        map_object={null} />
+                        map_object={map_object} 
+                        isEdit={false}/>
                 </Row>
             </Col>
         </Fragment>

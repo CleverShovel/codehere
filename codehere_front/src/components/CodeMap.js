@@ -4,8 +4,25 @@ import { format } from 'react-string-format';
 
 import CodeMarker from './CodeMarker'
 
-export default function CodeMap({ map_objects }) {
+import code_marker from './code_marker.png';
+import new_code_marker from './new_code_marker.png'
+
+export default function CodeMap({ map_objects, style, setNewCodePos }) {
     const [popupInfo, setPopupInfo] = useState(null);
+    const [newCodeMarker, setNewCodeMarker] = useState(null);
+
+    if (style === undefined) {
+        style = { "width": 600, "height": 400 };
+    }
+
+    function handleClick(e) {
+        setNewCodePos(e.lngLat.lng, e.lngLat.lat);
+        setNewCodeMarker({
+            "lon": e.lngLat.lng,
+            "lat": e.lngLat.lat
+        });
+    }
+
     return (
         <Map
             initialViewState={{
@@ -13,11 +30,13 @@ export default function CodeMap({ map_objects }) {
                 latitude: 0,
                 zoom: 2
             }}
-            style={{ width: 600, height: 400 }}
+            style={style}
             mapStyle={format("https://api.maptiler.com/maps/streets/style.json?key={0}", process.env.REACT_APP_MAPTILER_KEY)}
+            onClick={handleClick}
         >
-            {map_objects.map(map_object => (
+            {map_objects.map((map_object, idx) => (
                 <CodeMarker
+                    key={idx}
                     lon={map_object.lon}
                     lat={map_object.lat}
                     onClick={e => {
@@ -26,8 +45,18 @@ export default function CodeMap({ map_objects }) {
                         e.originalEvent.stopPropagation();
                         setPopupInfo(map_object);
                     }}
+                    markerSrc={code_marker}
                 />
             ))}
+
+            {newCodeMarker && (
+                <CodeMarker 
+                    lon={newCodeMarker.lon}
+                    lat={newCodeMarker.lat}
+                    markerSrc={new_code_marker}
+                />
+            )}
+
             {popupInfo && (
                 <Popup longitude={popupInfo.lon} latitude={popupInfo.lat}
                     anchor="bottom"

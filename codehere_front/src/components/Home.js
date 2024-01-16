@@ -10,7 +10,11 @@ import { API_URL } from "../constants";
 
 class Home extends Component {
   state = {
-    map_objects: []
+    map_objects: [],
+    newCodePos: {
+      "lon": null,
+      "lat": null
+    }
   };
 
   componentDidMount() {
@@ -25,18 +29,31 @@ class Home extends Component {
     this.getMapObjects();
   };
 
+  setNewCodePos = (lon, lat) => {
+    this.setState(() => ({
+      newCodePos: {
+        "lon": lon,
+        "lat": lat
+      }
+    }));
+  }
+
   render() {
     return (
       <Container style={{ marginTop: "20px" }}>
         <Row>
-          <Col>
+          <Col md="8" sm="6">
             <CodeMap
               map_objects={this.state.map_objects}
+              style={{ width: '100%', height: '100%' }}
+              setNewCodePos={this.setNewCodePos}
             />
           </Col>
-          <Col>
+          <Col md="auto" sm="auto">
             <NewMapObjectOnPage
-              resetState={this.resetState} />
+              resetState={this.resetState}
+              lon={this.state.newCodePos.lon}
+              lat={this.state.newCodePos.lat} />
           </Col>
         </Row>
       </Container>

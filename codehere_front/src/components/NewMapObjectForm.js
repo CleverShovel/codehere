@@ -3,6 +3,8 @@ import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 
 import axios from "axios";
 
+import equal from 'fast-deep-equal'
+
 import { API_URL } from "../constants";
 
 class NewMapObjectForm extends React.Component {
@@ -16,6 +18,13 @@ class NewMapObjectForm extends React.Component {
 
   componentDidMount() {
     if (this.props.map_object) {
+      const { pk, username, code, lon, lat } = this.props.map_object;
+      this.setState({ pk, username, code, lon, lat });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if(!equal(this.props.map_object, prevProps.map_object)) {
       const { pk, username, code, lon, lat } = this.props.map_object;
       this.setState({ pk, username, code, lon, lat });
     }
@@ -47,7 +56,7 @@ class NewMapObjectForm extends React.Component {
 
   render() {
     return (
-      <Form onSubmit={this.props.map_object ? this.editMapObject : this.createMapObject}>
+      <Form onSubmit={this.props.isEdit ? this.editMapObject : this.createMapObject}>
         <FormGroup>
           <Label for="username">Username:</Label>
           <Input
@@ -72,6 +81,7 @@ class NewMapObjectForm extends React.Component {
             type="text"
             name="lon"
             onChange={this.onChange}
+            disabled={true}
             // onKeyDown={(event) => {
             //   if (!/[0-9]/.test(event.key)) {
             //     event.preventDefault();
@@ -86,6 +96,7 @@ class NewMapObjectForm extends React.Component {
             type="text"
             name="lat"
             onChange={this.onChange}
+            disabled={true}
             // onKeyDown={(event) => {
             //   if (!/[0-9]/.test(event.key)) {
             //     event.preventDefault();
