@@ -1,6 +1,9 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import Map, { Popup } from 'react-map-gl/maplibre';
 import { format } from 'react-string-format';
+import { Card, CardText, CardBody, CardTitle } from 'reactstrap'
+
+import "@fontsource/roboto-mono"
 
 import CodeMarker from './CodeMarker'
 
@@ -50,7 +53,7 @@ export default function CodeMap({ map_objects, style, setNewCodePos }) {
             ))}
 
             {newCodeMarker && (
-                <CodeMarker 
+                <CodeMarker
                     lon={newCodeMarker.lon}
                     lat={newCodeMarker.lat}
                     markerSrc={new_code_marker}
@@ -61,9 +64,14 @@ export default function CodeMap({ map_objects, style, setNewCodePos }) {
                 <Popup longitude={popupInfo.lon} latitude={popupInfo.lat}
                     anchor="bottom"
                     onClose={() => setPopupInfo(null)}>
-                    <p>Username: {popupInfo.username}</p>
-                    <p>Code:</p>
-                    <p>{popupInfo.code}</p>
+                    <Card>
+                        <CardBody>
+                            <CardTitle tag="h6">Username: {popupInfo.username}</CardTitle>
+                            <CardTitle tag="h6">Code language: {popupInfo.code_language === "" ? "unknown" : popupInfo.code_language}</CardTitle>
+                            <CardTitle tag="h6">Code:</CardTitle>
+                            <CardText style={{"font-family": "Roboto Mono"}}>{popupInfo.code}</CardText>
+                        </CardBody>
+                    </Card>
                 </Popup>)}
         </Map>
     );

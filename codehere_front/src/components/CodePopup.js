@@ -16,6 +16,7 @@ class CodePopup extends Component {
         const lon = this.props.lon;
         const lat = this.props.lat;
         const username = this.props.username;
+        const code_language = this.props.code_language
         const code = this.props.code;
         return <Fragment>
             {this.state.showPopup && (

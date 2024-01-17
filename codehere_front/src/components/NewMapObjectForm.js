@@ -1,5 +1,15 @@
 import React from "react";
-import { Button, Form, FormGroup, Input, Label } from "reactstrap";
+import {
+  Button,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from "reactstrap";
 
 import axios from "axios";
 
@@ -11,22 +21,25 @@ class NewMapObjectForm extends React.Component {
   state = {
     pk: 0,
     username: "",
+    code_language: "",
     code: "",
     lon: "",
-    lat: ""
+    lat: "",
+    dropdownOpen: false,
+    dropdownValue: ""
   };
 
   componentDidMount() {
     if (this.props.map_object) {
-      const { pk, username, code, lon, lat } = this.props.map_object;
-      this.setState({ pk, username, code, lon, lat });
+      const { pk, username, code_language, code, lon, lat } = this.props.map_object;
+      this.setState({ pk, username, code_language, code, lon, lat });
     }
   }
 
   componentDidUpdate(prevProps) {
-    if(!equal(this.props.map_object, prevProps.map_object)) {
-      const { pk, username, code, lon, lat } = this.props.map_object;
-      this.setState({ pk, username, code, lon, lat });
+    if (!equal(this.props.map_object, prevProps.map_object)) {
+      const { pk, username, code_language, code, lon, lat } = this.props.map_object;
+      this.setState({ pk, username, code_language, code, lon, lat });
     }
   }
 
@@ -54,7 +67,18 @@ class NewMapObjectForm extends React.Component {
     return value === "" ? "" : value;
   };
 
+  toggle = () => {
+    this.setState(previous => ({
+      dropdownOpen: !previous.dropdownOpen
+    }));
+  };
+
+  setDropdownValue = (val) => {
+    this.setState({ dropDownValue: val });
+  }
+
   render() {
+    const code_languages = ["Python", "C#", "C++", "JavaScript", "Java"]
     return (
       <Form onSubmit={this.props.isEdit ? this.editMapObject : this.createMapObject}>
         <FormGroup>
@@ -65,6 +89,17 @@ class NewMapObjectForm extends React.Component {
             onChange={this.onChange}
             defaultValue={this.defaultIfEmpty(this.state.username)}
           />
+        </FormGroup>
+        <FormGroup>
+          <Label for="codeLanguage">Code language:</Label>
+          <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} direction="down">
+            <DropdownToggle caret>{this.state.dropDownValue}</DropdownToggle>
+            <DropdownMenu>
+              {code_languages.map((lang, idx) => (
+                <DropdownItem key={idx} onClick={() => this.setDropdownValue(lang)}>{lang}</DropdownItem>
+              ))}
+            </DropdownMenu>
+          </Dropdown>
         </FormGroup>
         <FormGroup>
           <Label for="code">Code:</Label>
@@ -82,11 +117,6 @@ class NewMapObjectForm extends React.Component {
             name="lon"
             onChange={this.onChange}
             disabled={true}
-            // onKeyDown={(event) => {
-            //   if (!/[0-9]/.test(event.key)) {
-            //     event.preventDefault();
-            //   }
-            // }}
             defaultValue={this.defaultIfEmpty(this.state.lon)}
           />
         </FormGroup>
@@ -97,11 +127,6 @@ class NewMapObjectForm extends React.Component {
             name="lat"
             onChange={this.onChange}
             disabled={true}
-            // onKeyDown={(event) => {
-            //   if (!/[0-9]/.test(event.key)) {
-            //     event.preventDefault();
-            //   }
-            // }}
             defaultValue={this.defaultIfEmpty(this.state.lat)}
           />
         </FormGroup>
