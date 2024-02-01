@@ -1,0 +1,63 @@
+version: '3.4'
+
+services:
+  nginx: 
+    restart: unless-stopped
+    image: nginx:stable-alpine
+    ports:
+      - 8080:80
+    volumes:
+      # - static_volume:/app/backend/server/django_static
+      - ./nginx/development:/etc/nginx/conf.d
+    env_file:
+      - ./codehere_front/.env
+    depends_on:
+      - backend
+  backend:
+    image: codehere_back
+    build:
+      context: ./codehere_back
+      dockerfile: ./Dockerfile
+    command: ["sh", "-c", "python manage.py runserver 0.0.0.0:8000"]
+    ports:
+      - 8000:8000
+      - 5678:5678
+    env_file:
+      - ./codehere_back/.env
+    depends_on:
+      - db
+      - back_migrations
+    restart: unless-stopped
+  back_migrations:
+    image: codehere_back
+    build:
+      context: ./codehere_back
+      dockerfile: ./Dockerfile
+    command: ["sh", "-c", "python manage.py migrate"]
+    env_file:
+      - ./codehere_back/.env
+    depends_on:
+      - db
+  frontend:
+    image: codehere_front
+    build:
+      context: ./codehere_front
+      dockerfile: ./Dockerfile
+    ports:
+      - 3000:3000
+    env_file:
+      - ./codehere_front/.env
+    restart: unless-stopped
+  db:
+    image: postgres:12
+    container_name: codehere_db
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+ 
+volumes:
+  postgres_data:
+  # static_volume: {}

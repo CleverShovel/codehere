@@ -28,4 +28,7 @@ codehere_back/db.sqlite3
 */yarn-error.log*
 
 
-*/.env
+*.env
+
+# vscode
+.vscode
