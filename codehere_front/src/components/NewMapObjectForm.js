@@ -26,7 +26,6 @@ class NewMapObjectForm extends React.Component {
     lon: "",
     lat: "",
     dropdownOpen: false,
-    dropdownValue: ""
   };
 
   componentDidMount() {
@@ -49,7 +48,17 @@ class NewMapObjectForm extends React.Component {
 
   createMapObject = e => {
     e.preventDefault();
-    axios.post(API_URL, this.state).then(() => {
+
+    const map_object = {
+      pk: this.state.pk,
+      username: this.state.username,
+      code_language: this.state.code_language,
+      code: this.state.code,
+      lon: this.state.lon,
+      lat: this.state.lat,
+    }
+
+    axios.post(API_URL, map_object).then(() => {
       this.props.resetState();
       this.props.toggle();
     });
@@ -57,7 +66,17 @@ class NewMapObjectForm extends React.Component {
 
   editMapObject = e => {
     e.preventDefault();
-    axios.put(API_URL + this.state.pk, this.state).then(() => {
+
+    const map_object = {
+      pk: this.state.pk,
+      username: this.state.username,
+      code_language: this.state.code_language,
+      code: this.state.code,
+      lon: this.state.lon,
+      lat: this.state.lat,
+    }
+
+    axios.put(API_URL + this.state.pk, map_object).then(() => {
       this.props.resetState();
       this.props.toggle();
     });
@@ -74,7 +93,7 @@ class NewMapObjectForm extends React.Component {
   };
 
   setDropdownValue = (val) => {
-    this.setState({ dropDownValue: val });
+    this.setState({ code_language: val });
   }
 
   render() {
@@ -91,9 +110,9 @@ class NewMapObjectForm extends React.Component {
           />
         </FormGroup>
         <FormGroup>
-          <Label for="codeLanguage">Code language:</Label>
+          <Label for="code_language">Code language:</Label>
           <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} direction="down">
-            <DropdownToggle caret>{this.state.dropDownValue}</DropdownToggle>
+            <DropdownToggle caret>{this.state.code_language}</DropdownToggle>
             <DropdownMenu>
               {code_languages.map((lang, idx) => (
                 <DropdownItem key={idx} onClick={() => this.setDropdownValue(lang)}>{lang}</DropdownItem>
