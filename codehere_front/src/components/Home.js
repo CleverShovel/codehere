@@ -41,21 +41,37 @@ class Home extends Component {
   render() {
     return (
       <Container style={{ marginTop: "20px" }}>
-        <Row>
-          <Col md="8" sm="6">
+        <Container fluid className="d-none d-md-block">
+          <Row>
+            <Col md="8">
+                <CodeMap
+                  map_objects={this.state.map_objects}
+                  style={{ width: '100%', height: '100%' }}
+                  setNewCodePos={this.setNewCodePos}
+                />
+            </Col>
+            <Col md="auto">
+                <NewMapObjectOnPage
+                  resetState={this.resetState}
+                  lon={this.state.newCodePos.lon}
+                  lat={this.state.newCodePos.lat} />
+            </Col>
+          </Row>
+        </Container>
+        <Container fluid className="d-block d-md-none">
+          <Row>
             <CodeMap
               map_objects={this.state.map_objects}
-              style={{ width: '100%', height: '100%' }}
               setNewCodePos={this.setNewCodePos}
             />
-          </Col>
-          <Col md="auto" sm="auto">
+          </Row>
+          <Row>
             <NewMapObjectOnPage
               resetState={this.resetState}
               lon={this.state.newCodePos.lon}
               lat={this.state.newCodePos.lat} />
-          </Col>
-        </Row>
+          </Row>
+        </Container>
       </Container>
     );
   }
